@@ -1,14 +1,13 @@
+import os
+from dotenv import load_dotenv  # <-- ถ้ายังไม่มี
+
+load_dotenv()  # โหลดจากไฟล์ .env
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-
 # DATABASE_URL = "postgresql://postgres:yeeStock15@eipmouvlllqdagdfqrhv.supabase.co:5432/postgres"
 
-DATABASE_URL = (
-    "postgresql://postgres.eipmouvlllqdagdfqrhv:yeeStock15"
-    "@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres"
-    "?options=--cluster%3Ddb-eipmouvlllqdagdfqrhv&sslmode=require&gssencmode=disable"
-)
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(DATABASE_URL,connect_args={
     "sslmode": "require",
