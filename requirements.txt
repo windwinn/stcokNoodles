@@ -1,0 +1,2 @@
+fastapi
+uvicorn[standard]hypercorn main:app --reload
