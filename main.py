@@ -37,7 +37,9 @@ units = [
     schemas.Units(name="หัว", code="DAY"),
     schemas.Units(name="มัด", code="DAY"),
 ]
-
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to my FastAPI app"}
 @app.post("/stocks/", response_model=schemas.StockOut)
 def create_stock(stock: schemas.StockCreate, db: Session = Depends(get_db)):
     return crud.create_stock(db, stock)
