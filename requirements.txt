@@ -1,2 +1,3 @@
 fastapi
-uvicorn[standard]hypercorn main:app --reload
+uvicorn[standard]
+hypercorn
