@@ -48,8 +48,11 @@ def create_stock(stock: schemas.StockCreate, db: Session = Depends(get_db)):
 def broadcast_line(stock_id: int, db: Session = Depends(get_db)):
     stock = crud.get_stock_by_id(db, stock_id=stock_id)
     message_lines = [f"📦 สรุปจำนวนสต๊อกที่สั่งเพิ่มวันที่ {stock.create_date}\n"]
+    message_lines.append(f"🥩 ของสด \n")
     for p in stock.products:
         message_lines.append(f"- {p.name} : {p.order} {p.order_unit}")
+        if p.name == 'กากหมู':
+            message_lines.append(f"🥬 ผัก \n")
     message = "\n".join(message_lines)
     token = 'PCQYVri8Sj3x7ut1sdEiGNUbXfI4/2kEQ7i+w+ggGJ5A+cCe/t4rySQvBxux8E/yQIoMDisMykSeLG/R17B7QUIkGBzs3yciD+vRzM642T43IcXC+12GzMT0AjE6ZV1h0Yv8VU0ALCvVn/N/5S8xhAdB04t89/1O/w1cDnyilFU='
     crud.broadcast_line(message, token)
