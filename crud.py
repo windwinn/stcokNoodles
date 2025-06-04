@@ -1,7 +1,10 @@
 from sqlalchemy.orm import Session
 import models, schemas
 import requests
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 def create_stock(db: Session, stock_data: schemas.StockCreate):
     stock = models.Stock(
         create_date=stock_data.create_date,
@@ -36,7 +39,7 @@ def broadcast_line(message, channel_access_token):
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {channel_access_token}'
     }
-    group_id = 'Cd71948a36e8678479c67462476e361ba'
+    group_id = os.getenv("GROUP_ID")
     payload = {
         'to': group_id,
         'messages': [{

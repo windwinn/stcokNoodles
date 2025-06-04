@@ -1,11 +1,10 @@
 import os
-from dotenv import load_dotenv  # <-- ถ้ายังไม่มี
+from dotenv import load_dotenv
 
-load_dotenv()  # โหลดจากไฟล์ .env
+load_dotenv()
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-# DATABASE_URL = "postgresql://postgres:yeeStock15@eipmouvlllqdagdfqrhv.supabase.co:5432/postgres"
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 

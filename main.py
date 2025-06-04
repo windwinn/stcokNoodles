@@ -55,7 +55,7 @@ def broadcast_line(stock_id: int, db: Session = Depends(get_db)):
             message_lines.append(f"\n")
             message_lines.append(f"🥬 ผัก \n")
     message = "\n".join(message_lines)
-    token = 'PCQYVri8Sj3x7ut1sdEiGNUbXfI4/2kEQ7i+w+ggGJ5A+cCe/t4rySQvBxux8E/yQIoMDisMykSeLG/R17B7QUIkGBzs3yciD+vRzM642T43IcXC+12GzMT0AjE6ZV1h0Yv8VU0ALCvVn/N/5S8xhAdB04t89/1O/w1cDnyilFU='
+    token = os.getenv("TOKEN")
     crud.broadcast_line(message, token)
     return stock
 
