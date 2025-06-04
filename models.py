@@ -1,12 +1,12 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
-
+from datetime import datetime
 class Stock(Base):
     __tablename__ = "stocks"
 
     id = Column(Integer, primary_key=True, index=True)
-    create_date = Column(Date)
+    create_date = Column(DateTime, default=datetime.utcnow)
     create_by = Column(String)
     create_by_id = Column(Integer)
 
