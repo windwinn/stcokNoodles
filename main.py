@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import models, schemas, crud
 from database import SessionLocal, engine, Base
+from datetime import datetime
+
 from dotenv import load_dotenv
 import os
 
@@ -47,7 +49,8 @@ def create_stock(stock: schemas.StockCreate, db: Session = Depends(get_db)):
 @app.get("/stocks/line/{stock_id}", response_model=schemas.StockOut)
 def broadcast_line(stock_id: int, db: Session = Depends(get_db)):
     stock = crud.get_stock_by_id(db, stock_id=stock_id)
-    message_lines = [f"📦 สรุปจำนวนสต๊อกที่สั่งเพิ่มวันที่ {stock.create_date}\n"]
+    create_date = stock.create_date.strftime("%d-%m-%Y %H:%M:%S")
+    message_lines = [f"📦 สรุปจำนวนสต๊อกที่สั่งเพิ่มวันที่ {create_date}\n"]
     message_lines.append(f"🥩 ของสด \n")
     for p in stock.products:
         note_text = f"❗{p.note}" if p.note else ""
