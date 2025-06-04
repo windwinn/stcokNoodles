@@ -50,7 +50,8 @@ def broadcast_line(stock_id: int, db: Session = Depends(get_db)):
     message_lines = [f"📦 สรุปจำนวนสต๊อกที่สั่งเพิ่มวันที่ {stock.create_date}\n"]
     message_lines.append(f"🥩 ของสด \n")
     for p in stock.products:
-        message_lines.append(f"- {p.name} : {p.order} {p.order_unit} {p.note}")
+        note_text = f"❗{p.note}" if p.note else ""
+        message_lines.append(f"- {p.name} : {p.order} {p.order_unit} {note_text}")
         if p.name == 'กากหมู':
             message_lines.append(f"\n")
             message_lines.append(f"🥬 ผัก \n")

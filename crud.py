@@ -3,11 +3,17 @@ import models, schemas
 import requests
 import os
 from dotenv import load_dotenv
+from datetime import datetime, timezone
 
 load_dotenv()
 def create_stock(db: Session, stock_data: schemas.StockCreate):
+
+    dateStr = stock_data.create_date.isoformat()
+    date = datetime.fromisoformat(dateStr)
+    dateFormat = date.isoformat()
+
     stock = models.Stock(
-        create_date=stock_data.create_date,
+        create_date=dateFormat,
         create_by=stock_data.create_by,
         create_by_id=stock_data.create_by_id,
     )
