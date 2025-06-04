@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from datetime import date
+from datetime import datetime
 
 class ProductCreate(BaseModel):
     name: str
@@ -18,14 +18,14 @@ class ProductOut(ProductCreate):
         orm_mode = True
 
 class StockCreate(BaseModel):
-    create_date: date
+    create_date: datetime
     create_by: str
     create_by_id: int
     products: List[ProductCreate]
 
 class StockOut(BaseModel):
     id: int
-    create_date: date
+    create_date: datetime
     create_by: str
     create_by_id: int
     products: List[ProductOut]
