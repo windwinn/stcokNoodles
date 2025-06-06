@@ -53,11 +53,12 @@ def broadcast_line(stock_id: int, db: Session = Depends(get_db)):
     message_lines = [f"📦 สรุปจำนวนสต๊อกที่สั่งเพิ่มวันที่ {create_date}\n"]
     message_lines.append(f"🥩 ของสด \n")
     for p in stock.products:
-        note_text = f"❗{p.note}" if p.note else ""
-        message_lines.append(f"- {p.name} : {p.order} {p.order_unit} {note_text}")
-        if p.name == 'กากหมู':
-            message_lines.append(f"\n")
-            message_lines.append(f"🥬 ผัก \n")
+        if p.order > 0:
+            note_text = f"❗{p.note}" if p.note else ""
+            message_lines.append(f"- {p.name} : {p.order} {p.order_unit} {note_text}")
+            if p.name == 'กากหมู':
+                message_lines.append(f"\n")
+                message_lines.append(f"🥬 ผัก \n")
     message = "\n".join(message_lines)
     token = os.getenv("TOKEN")
     crud.broadcast_line(message, token)
