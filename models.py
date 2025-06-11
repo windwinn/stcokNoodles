@@ -9,6 +9,7 @@ class Stock(Base):
     create_date = Column(DateTime, default=datetime.utcnow)
     create_by = Column(String)
     create_by_id = Column(Integer)
+    notes = Column(String)
 
     products = relationship("Product", back_populates="stock")
 

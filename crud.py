@@ -16,6 +16,7 @@ def create_stock(db: Session, stock_data: schemas.StockCreate):
         create_date=dateFormat,
         create_by=stock_data.create_by,
         create_by_id=stock_data.create_by_id,
+        notes=stock_data.notes
     )
     db.add(stock)
     db.commit()
