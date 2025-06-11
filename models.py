@@ -10,7 +10,7 @@ class Stock(Base):
     create_by = Column(String)
     create_by_id = Column(Integer)
     notes = Column(String)
-
+    status = Column(String)
     products = relationship("Product", back_populates="stock")
 
 class Product(Base):

@@ -59,9 +59,16 @@ def broadcast_line(stock_id: int, db: Session = Depends(get_db)):
             if p.name == 'กากหมู':
                 message_lines.append(f"\n")
                 message_lines.append(f"🥬 ผัก \n")
+
+    notes_text = f"{stock.notes}" if stock.notes else ""
+    if notes_text != "":
+        message_lines.append(f"\n")
+        message_lines.append(f"📝 เพิ่มเติม \n")
+        message_lines.append(f"- {notes_text}")
+
     message = "\n".join(message_lines)
     token = os.getenv("TOKEN")
-    crud.broadcast_line(message, token)
+    crud.broadcast_line(db, stock_id, message, token)
     return stock
 
 @app.get("/stocks/", response_model=list[schemas.StockOut])

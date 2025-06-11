@@ -16,7 +16,8 @@ def create_stock(db: Session, stock_data: schemas.StockCreate):
         create_date=dateFormat,
         create_by=stock_data.create_by,
         create_by_id=stock_data.create_by_id,
-        notes=stock_data.notes
+        notes=stock_data.notes,
+        status='created'
     )
     db.add(stock)
     db.commit()
@@ -39,7 +40,14 @@ def create_stock(db: Session, stock_data: schemas.StockCreate):
     db.refresh(stock)
     return stock
 
-def broadcast_line(message, channel_access_token):
+def broadcast_line(db: Session, stock_id: int, message, channel_access_token):
+
+    stock = db.query(models.Stock).filter(models.Stock.id == stock_id).first()
+    if not stock:
+        return None
+    stock.status = 'broadcasts'
+    db.commit()
+    db.refresh(stock)
 
     url = 'https://api.line.me/v2/bot/message/push'
     headers = {
@@ -58,7 +66,7 @@ def broadcast_line(message, channel_access_token):
     return response.status_code
 
 def get_stocks(db: Session):
-    return db.query(models.Stock).all()
+    return db.query(models.Stock).order_by(models.Stock.create_date).all()
 
 def get_stock_by_id(db: Session, stock_id: int):
     return db.query(models.Stock).filter(models.Stock.id == stock_id).first()

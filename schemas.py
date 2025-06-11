@@ -21,7 +21,7 @@ class StockCreate(BaseModel):
     create_date: datetime
     create_by: str
     create_by_id: int
-    notes: str
+    notes: Optional[str] = ""
     products: List[ProductCreate]
 
 class StockOut(BaseModel):
@@ -29,7 +29,8 @@ class StockOut(BaseModel):
     create_date: datetime
     create_by: str
     create_by_id: int
-    notes: str
+    notes: Optional[str] = ""
+    status: str
     products: List[ProductOut]
 
     class Config:
