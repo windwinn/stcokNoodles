@@ -70,3 +70,31 @@ def get_stocks(db: Session):
 
 def get_stock_by_id(db: Session, stock_id: int):
     return db.query(models.Stock).filter(models.Stock.id == stock_id).first()
+
+def create_master_product(db: Session, product: schemas.MasterProductCreate):
+    db_product = models.MasterProduct(**product.dict())
+    db.add(db_product)
+    db.commit()
+    db.refresh(db_product)
+    return db_product
+def get_master_products(db: Session):
+    return db.query(models.MasterProduct).order_by(models.MasterProduct.id).all()
+
+def get_master_product_status(db: Session, status: str):
+    return db.query(models.MasterProduct).filter(models.MasterProduct.visible_item == status).order_by(models.MasterProduct.id).all()
+
+def update_master_product(db: Session, product_id: int, product_data: schemas.MasterProductUpdate):
+    db_product = db.query(models.MasterProduct).filter(models.MasterProduct.id == product_id).first()
+    if db_product:
+        for key, value in product_data.dict().items():
+            setattr(db_product, key, value)
+        db.commit()
+        db.refresh(db_product)
+    return db_product
+
+def delete_master_product(db: Session, product_id: int):
+    db_product = db.query(models.MasterProduct).filter(models.MasterProduct.id == product_id).first()
+    if db_product:
+        db.delete(db_product)
+        db.commit()
+    return db_product

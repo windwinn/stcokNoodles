@@ -16,7 +16,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://stocknoodles.pages.dev"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -85,3 +85,29 @@ def get_stock(stock_id: int, db: Session = Depends(get_db)):
     if not stock:
         raise HTTPException(status_code=404, detail="Stock not found")
     return stock
+
+@app.get("/master-products-all/", response_model=list[schemas.MasterProductOut])
+def read_master_all(db: Session = Depends(get_db)):
+    return crud.get_master_products(db)
+
+@app.post("/master-products/", response_model=schemas.MasterProductOut)
+def create(product: schemas.MasterProductCreate, db: Session = Depends(get_db)):
+    return crud.create_master_product(db, product)
+
+@app.get("/master-products/", response_model=list[schemas.MasterProductBase])
+def read_master(db: Session = Depends(get_db)):
+    product = crud.get_master_product_status(db, True)
+    if product is None:
+        raise HTTPException(status_code=404, detail="Not found")
+    return product
+
+@app.put("/master-products/{product_id}", response_model=schemas.MasterProductOut)
+def update(product_id: int, product: schemas.MasterProductUpdate, db: Session = Depends(get_db)):
+    return crud.update_master_product(db, product_id, product)
+
+@app.delete("/master-products/{product_id}")
+def delete(product_id: int, db: Session = Depends(get_db)):
+    deleted = crud.delete_master_product(db, product_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Not found")
+    return {"message": "Deleted"}

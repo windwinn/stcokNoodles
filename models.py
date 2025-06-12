@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey ,Boolean
 from sqlalchemy.orm import relationship
 from database import Base
 from datetime import datetime
@@ -26,3 +26,14 @@ class Product(Base):
     note = Column(String)
 
     stock = relationship("Stock", back_populates="products")
+
+class MasterProduct(Base):
+    __tablename__ = "master_products"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True)
+    category = Column(String)
+    remain_unit = Column(String)
+    order_unit = Column(String)
+    note = Column(String, default="")
+    visible_item = Column(Boolean, default=True)

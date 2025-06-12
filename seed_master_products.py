@@ -1,0 +1,191 @@
+from sqlalchemy.orm import Session
+from database import SessionLocal
+import models
+
+freshFoods = [
+    {
+        "name": "บะหมี่",
+        "remain_unit": "ถุง",
+        "order_unit": "ชุด",
+        "category": "FF",
+        "note": ""
+    },
+    {
+        "name": "แผ่นเกี๊ยวต้ม",
+        "remain_unit": "ถุง",
+        "order_unit": "ถุง",
+        "category": "FF",
+        "note": ""
+    },
+    {
+        "name": "แผ่นเกี๊ยวทอด",
+        "remain_unit": "ถุง",
+        "order_unit": "ถุง",
+        "category": "FF",
+        "note": ""
+    },
+    {
+        "name": "เกี๊ยวหมู",
+        "remain_unit": "ถุง",
+        "order_unit": "ชุด",
+        "category": "FF",
+        "note": ""
+    },
+    {
+        "name": "เกี๊ยวกุ้ง",
+        "remain_unit": "ชุด",
+        "order_unit": "ชุด",
+        "category": "FF",
+        "note": ""
+    },
+    {
+        "name": "หมูแดง",
+        "remain_unit": "เส้น",
+        "order_unit": "ชุด",
+        "category": "FF",
+        "note": ""
+    },
+    {
+        "name": "ปู",
+        "remain_unit": "ถุง",
+        "order_unit": "ถุง",
+        "category": "FF",
+        "note": ""
+    },
+    {
+        "name": "ไก่ข้าวผัด",
+        "remain_unit": "ถุง",
+        "order_unit": "ชุด",
+        "category": "FF",
+        "note": ""
+    },
+    {
+        "name": "กุ้งข้าวผัด",
+        "remain_unit": "ถุง",
+        "order_unit": "ถุง",
+        "category": "FF",
+        "note": ""
+    },
+    {
+        "name": "กระดูกเล้ง",
+        "remain_unit": "วัน",
+        "order_unit": "ชุด",
+        "category": "FF",
+        "note": ""
+    },
+    {
+        "name": "กระดูกข้อ",
+        "remain_unit": "วัน",
+        "order_unit": "ชุด",
+        "category": "FF",
+        "note": ""
+    },
+    {
+        "name": "กากหมู",
+        "remain_unit": "วัน",
+        "order_unit": "ชุด",
+        "category": "FF",
+        "note": ""
+    },
+    {
+        "name": "กวางตุ้ง",
+        "remain_unit": "ถุง",
+        "order_unit": "ถุง",
+        "category": "VT",
+        "note": ""
+    },
+    {
+        "name": "ต้นหอม",
+        "remain_unit": "กิโลกรัม",
+        "order_unit": "กิโลกรัม",
+        "category": "VT",
+        "note": ""
+    },
+    {
+        "name": "พริกชิ้ฟ้า",
+        "remain_unit": "ถุง",
+        "order_unit": "ถุง",
+        "category": "VT",
+        "note": ""
+    },
+    {
+        "name": "กระเทียม",
+        "remain_unit": "ถุง",
+        "order_unit": "ถุง",
+        "category": "VT",
+        "note": ""
+    },
+    {
+        "name": "ฝัก",
+        "remain_unit": "ลูก",
+        "order_unit": "ลูก",
+        "category": "VT",
+        "note": ""
+    },
+    {
+        "name": "แครอท",
+        "remain_unit": "หัว",
+        "order_unit": "กิโลกรัม",
+        "category": "VT",
+        "note": ""
+    },
+    {
+        "name": "หอมใหญ่",
+        "remain_unit": "หัว",
+        "order_unit": "กิโลกรัม",
+        "category": "VT",
+        "note": ""
+    },
+    {
+        "name": "แตงล้าน",
+        "remain_unit": "ลูก",
+        "order_unit": "กิโลกรัม",
+        "category": "VT",
+        "note": ""
+    },
+    {
+        "name": "พริกขี้หนู",
+        "remain_unit": "ถุง",
+        "order_unit": "กิโลกรัม",
+        "category": "VT",
+        "note": ""
+    },
+    {
+        "name": "มะนาว",
+        "remain_unit": "ถุง",
+        "order_unit": "ถุง",
+        "category": "VT",
+        "note": ""
+    },
+    {
+        "name": "ใบเตย",
+        "remain_unit": "มัด",
+        "order_unit": "มัด",
+        "category": "VT",
+        "note": ""
+    },
+    {
+        "name": "มะพร้าว",
+        "remain_unit": "ลูก",
+        "order_unit": "ลูก",
+        "category": "VT",
+        "note": ""
+    },
+    {
+        "name": "ลำไย",
+        "remain_unit": "ถุง",
+        "order_unit": "กิโลกรัม",
+        "category": "VT",
+        "note": ""
+    }
+]
+
+
+db: Session = SessionLocal()
+
+for item in freshFoods:
+    product = models.MasterProduct(**item)
+    db.add(product)
+
+db.commit()
+print("Seed completed.")

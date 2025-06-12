@@ -40,3 +40,23 @@ class Units(BaseModel):
     code: str
     name: str
 
+class MasterProductBase(BaseModel):
+    name: str
+    category: str
+    remain_unit: str
+    order_unit: str
+    note: Optional[str] = ""
+    visible_item: Optional[bool] = True
+    class Config:
+        orm_mode = True
+class MasterProductCreate(MasterProductBase):
+    pass
+
+class MasterProductUpdate(MasterProductBase):
+    pass
+
+class MasterProductOut(MasterProductBase):
+    id: int
+
+    class Config:
+        orm_mode = True
