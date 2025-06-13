@@ -66,7 +66,7 @@ def broadcast_line(db: Session, stock_id: int, message, channel_access_token):
     return response.status_code
 
 def get_stocks(db: Session):
-    return db.query(models.Stock).order_by(models.Stock.create_date).all()
+    return db.query(models.Stock).order_by(models.Stock.create_date.desc()).all()
 
 def get_stock_by_id(db: Session, stock_id: int):
     return db.query(models.Stock).filter(models.Stock.id == stock_id).first()

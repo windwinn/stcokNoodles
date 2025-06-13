@@ -51,20 +51,24 @@ def broadcast_line(stock_id: int, db: Session = Depends(get_db)):
     stock = crud.get_stock_by_id(db, stock_id=stock_id)
     create_date = stock.create_date.strftime("%d-%m-%Y %H:%M:%S")
     message_lines = [f"📦 สรุปจำนวนสต๊อกที่สั่งเพิ่มวันที่ {create_date}\n"]
-    message_lines.append(f"🥩 ของสด \n")
-    for p in stock.products:
-        if p.order > 0:
+    fresh_items = [p for p in stock.products if p.category == 'FF' and p.order > 0]
+    vege_items = [p for p in stock.products if p.category == 'VT' and p.order > 0]
+
+    if fresh_items:
+        message_lines.append("🥩 ของสด\n")
+        for p in fresh_items:
             note_text = f"❗{p.note}" if p.note else ""
             message_lines.append(f"- {p.name} : {p.order} {p.order_unit} {note_text}")
-            if p.name == 'กากหมู':
-                message_lines.append(f"\n")
-                message_lines.append(f"🥬 ผัก \n")
 
-    notes_text = f"{stock.notes}" if stock.notes else ""
-    if notes_text != "":
-        message_lines.append(f"\n")
-        message_lines.append(f"📝 เพิ่มเติม \n")
-        message_lines.append(f"- {notes_text}")
+    if vege_items:
+        message_lines.append("\n🥬 ผัก\n")
+        for p in vege_items:
+            note_text = f"❗{p.note}" if p.note else ""
+            message_lines.append(f"- {p.name} : {p.order} {p.order_unit} {note_text}")
+
+    if stock.notes:
+        message_lines.append("\n📝 เพิ่มเติม\n")
+        message_lines.append(f"- {stock.notes}")
 
     message = "\n".join(message_lines)
     token = os.getenv("TOKEN")
