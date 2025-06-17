@@ -43,6 +43,8 @@ class Units(BaseModel):
 class MasterProductBase(BaseModel):
     name: str
     category: str
+    remain: Optional[str] = None
+    order: Optional[str] = None
     remain_unit: str
     order_unit: str
     note: Optional[str] = ""
