@@ -22,6 +22,7 @@ class StockCreate(BaseModel):
     create_by: str
     create_by_id: int
     notes: Optional[str] = ""
+    category: str
     products: List[ProductCreate]
 
 class StockOut(BaseModel):
@@ -30,6 +31,7 @@ class StockOut(BaseModel):
     create_by: str
     create_by_id: int
     notes: Optional[str] = ""
+    category: str
     status: str
     products: List[ProductOut]
 
