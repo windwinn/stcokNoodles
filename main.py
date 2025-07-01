@@ -46,9 +46,9 @@ def read_root():
 def create_stock(stock: schemas.StockCreate, db: Session = Depends(get_db)):
     return crud.create_stock(db, stock)
 
-@app.get("/stocks/line/{stock_id}", response_model=schemas.StockOut)
-def broadcast_line(stock_id: int, db: Session = Depends(get_db)):
-    stock = crud.get_stock_by_id(db, stock_id=stock_id)
+@app.get("/stocks/line/{category}/{stock_id}", response_model=schemas.StockOut)
+def broadcast_line(stock_id: int, category: str, db: Session = Depends(get_db)):
+    stock = crud.get_stock_by_id(db, stock_id=stock_id, category=category)
     create_date = stock.create_date.strftime("%d-%m-%Y %H:%M:%S")
     message_lines = [f"📦 สรุปจำนวนสต๊อกที่สั่งเพิ่มวันที่ {create_date}\n"]
     fresh_items = [p for p in stock.products if p.category == 'FF' and p.order > 0]
@@ -75,17 +75,17 @@ def broadcast_line(stock_id: int, db: Session = Depends(get_db)):
     crud.broadcast_line(db, stock_id, message, token)
     return stock
 
-@app.get("/stocks/", response_model=list[schemas.StockOut])
-def read_stocks(db: Session = Depends(get_db)):
-    return crud.get_stocks(db)
+@app.get("/stocks/{category}", response_model=list[schemas.StockOut])
+def read_stocks(category: str, db: Session = Depends(get_db)):
+    return crud.get_stocks(db, category=category)
 
 @app.get("/stocksUnit", response_model=list[schemas.Units])
 def read_stocks():
     return units
 
-@app.get("/stocks/{stock_id}", response_model=schemas.StockOut)
-def get_stock(stock_id: int, db: Session = Depends(get_db)):
-    stock = crud.get_stock_by_id(db, stock_id=stock_id)
+@app.get("/stocks/{category}/{stock_id}", response_model=schemas.StockOut)
+def get_stock(stock_id: int, category: str, db: Session = Depends(get_db)):
+    stock = crud.get_stock_by_id(db, stock_id=stock_id, category=category)
     if not stock:
         raise HTTPException(status_code=404, detail="Stock not found")
     return stock

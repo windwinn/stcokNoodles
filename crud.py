@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload, with_loader_criteria
 import models, schemas
 import requests
 import os
@@ -17,6 +17,7 @@ def create_stock(db: Session, stock_data: schemas.StockCreate):
         create_by=stock_data.create_by,
         create_by_id=stock_data.create_by_id,
         notes=stock_data.notes,
+        category=stock_data.category,
         status='created'
     )
     db.add(stock)
@@ -65,11 +66,25 @@ def broadcast_line(db: Session, stock_id: int, message, channel_access_token):
     response = requests.post(url, headers=headers, json=payload)
     return response.status_code
 
-def get_stocks(db: Session):
-    return db.query(models.Stock).order_by(models.Stock.create_date.desc()).all()
+def get_stocks(db: Session, category: str):
+    return (
+        db.query(models.Stock)
+        .filter(models.Stock.category == category)
+        .order_by(models.Stock.create_date.desc())
+        .all()
+    )
 
-def get_stock_by_id(db: Session, stock_id: int):
-    return db.query(models.Stock).filter(models.Stock.id == stock_id).first()
+def get_stock_by_id(db: Session, stock_id: int, category: str):
+    return (
+        db.query(models.Stock)
+        .options(
+            joinedload(models.Stock.products),
+            with_loader_criteria(models.Product, models.Product.category == category)
+        )
+        .filter(models.Stock.id == stock_id)
+        .first()
+    )
+
 
 def create_master_product(db: Session, product: schemas.MasterProductCreate):
     db_product = models.MasterProduct(**product.dict())
