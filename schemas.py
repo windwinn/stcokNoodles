@@ -38,9 +38,18 @@ class StockOut(BaseModel):
     class Config:
         orm_mode = True
 
-class Units(BaseModel):
-    code: str
+class UnitBase(BaseModel):
     name: str
+    code: str
+class UnitCreate(UnitBase):
+    pass
+class UnitUpdate(UnitBase):
+    pass
+class UnitOut(UnitBase):
+    id: int
+
+    class Config:
+        orm_mode = True
 
 class MasterProductBase(BaseModel):
     name: str

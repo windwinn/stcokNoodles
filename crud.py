@@ -113,3 +113,23 @@ def delete_master_product(db: Session, product_id: int):
         db.delete(db_product)
         db.commit()
     return db_product
+
+
+def get_all_units(db: Session):
+    return db.query(models.MasterUnit).order_by(models.MasterUnit.id).all()
+
+def create_unit(db: Session, unit: schemas.UnitCreate):
+    db_unit = models.MasterUnit(name=unit.name, code=unit.code)
+    db.add(db_unit)
+    db.commit()
+    db.refresh(db_unit)
+    return db_unit
+
+def update_master_unit(db: Session, product_id: int, product_data: schemas.UnitUpdate):
+    db_product = db.query(models.MasterUnit).filter(models.MasterUnit.id == product_id).first()
+    if db_product:
+        for key, value in product_data.dict().items():
+            setattr(db_product, key, value)
+        db.commit()
+        db.refresh(db_product)
+    return db_product

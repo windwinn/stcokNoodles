@@ -40,3 +40,10 @@ class MasterProduct(Base):
     order_unit = Column(String)
     note = Column(String, default="")
     visible_item = Column(Boolean, default=True)
+
+class MasterUnit(Base):
+    __tablename__ = "master_units"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    code = Column(String, unique=True, nullable=False)

@@ -29,16 +29,6 @@ def get_db():
     finally:
         db.close()
 
-units = [
-    schemas.Units(name="กิโลกรัม", code="KG"),
-    schemas.Units(name="ถุง", code="BAG"),
-    schemas.Units(name="ลูก", code="L"),
-    schemas.Units(name="เส้น", code="LINE"),
-    schemas.Units(name="ชุด", code="MEAL"),
-    schemas.Units(name="วัน", code="DAY"),
-    schemas.Units(name="หัว", code="DAY"),
-    schemas.Units(name="มัด", code="DAY"),
-]
 @app.get("/")
 def read_root():
     return {"message": "Welcome to my FastAPI app"}
@@ -79,9 +69,16 @@ def broadcast_line(stock_id: int, category: str, db: Session = Depends(get_db)):
 def read_stocks(category: str, db: Session = Depends(get_db)):
     return crud.get_stocks(db, category=category)
 
-@app.get("/stocksUnit", response_model=list[schemas.Units])
-def read_stocks():
-    return units
+@app.get("/units", response_model=list[schemas.UnitOut])
+def read_units(db: Session = Depends(get_db)):
+    return crud.get_all_units(db)
+
+@app.post("/units", response_model=schemas.UnitOut)
+def add_unit(unit: schemas.UnitCreate, db: Session = Depends(get_db)):
+    return crud.create_unit(db, unit)
+@app.put("/units/{product_id}", response_model=schemas.UnitOut)
+def update(product_id: int, product: schemas.UnitUpdate, db: Session = Depends(get_db)):
+    return crud.update_master_unit(db, product_id, product)
 
 @app.get("/stocks/{category}/{stock_id}", response_model=schemas.StockOut)
 def get_stock(stock_id: int, category: str, db: Session = Depends(get_db)):

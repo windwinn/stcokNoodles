@@ -84,7 +84,17 @@ freshFoods = [
         "visible_item": True
     },
     {
-        "name": "กุ้งข้าวผัด",
+        "name": "กุ้งข้าวผัด ถุงแดง",
+        "remain_unit": "ถุง",
+        "order_unit": "ถุง",
+        "category": "FF",
+        "note": "",
+        "order": "0",
+        "remain": None,
+        "visible_item": True
+    },
+    {
+        "name": "กุ้งข้าวผัด ถุงฟ้า",
         "remain_unit": "ถุง",
         "order_unit": "ถุง",
         "category": "FF",
@@ -144,7 +154,7 @@ freshFoods = [
         "visible_item": True
     },
     {
-        "name": "พริกชิ้ฟ้า",
+        "name": "พริกชีฟ้า",
         "remain_unit": "ถุง",
         "order_unit": "ถุง",
         "category": "VT",
@@ -194,7 +204,7 @@ freshFoods = [
         "visible_item": True
     },
     {
-        "name": "แตงล้าน",
+        "name": "แตงร้าน",
         "remain_unit": "ลูก",
         "order_unit": "กิโลกรัม",
         "category": "VT",
