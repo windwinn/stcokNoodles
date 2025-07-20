@@ -24,6 +24,7 @@ class Product(Base):
     remain_unit = Column(String)
     order = Column(Integer)
     order_unit = Column(String)
+    type = Column(Integer)
     note = Column(String)
 
     stock = relationship("Stock", back_populates="products")
@@ -39,6 +40,7 @@ class MasterProduct(Base):
     order = Column(String)
     order_unit = Column(String)
     note = Column(String, default="")
+    type = Column(Integer)
     visible_item = Column(Boolean, default=True)
 
 class MasterUnit(Base):

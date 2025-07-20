@@ -33,6 +33,7 @@ def create_stock(db: Session, stock_data: schemas.StockCreate):
             remain_unit=p.remain_unit,
             order=p.order,
             order_unit=p.order_unit,
+            type=p.type,
             note=p.note
         )
         db.add(product)

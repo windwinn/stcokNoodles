@@ -9,6 +9,7 @@ class ProductCreate(BaseModel):
     remain_unit: str
     order: int
     order_unit: str
+    type: int
     note: Optional[str] = ""
 
 class ProductOut(ProductCreate):
@@ -59,6 +60,7 @@ class MasterProductBase(BaseModel):
     remain_unit: str
     order_unit: str
     note: Optional[str] = ""
+    type:int
     visible_item: Optional[bool] = True
     class Config:
         orm_mode = True
