@@ -47,7 +47,7 @@ def broadcast_line(stock_id: int, category: str, db: Session = Depends(get_db)):
     if fresh_items:
 
         type1 = [p for p in stock.products if p.type == 1 and p.order > 0]
-        type2 = [p for p in stock.products if p.type == 1 and p.order > 0]
+        type2 = [p for p in stock.products if p.type == 2 and p.order > 0]
 
         message_lines.append("🥩 ของสด#1\n")
         for p in type1:
@@ -62,7 +62,7 @@ def broadcast_line(stock_id: int, category: str, db: Session = Depends(get_db)):
 
 
     if vege_items:
-        message_lines.append("\n🥬 ผัก\n")
+        message_lines.append("🥬 ผัก\n")
         for p in vege_items:
             note_text = f"❗{p.note}" if p.note else ""
             message_lines.append(f"- {p.name} : {p.order} {p.order_unit} {note_text}")
