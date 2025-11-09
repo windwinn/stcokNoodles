@@ -50,12 +50,24 @@ def broadcast_line(stock_id: int, category: str, db: Session = Depends(get_db)):
         type2 = [p for p in stock.products if p.type == 2 and p.order > 0]
 
         message_lines.append("🥩 ของสด#1\n")
+        message_lines.append(f"คงเหลือ\n")
+        for p in type1:
+            message_lines.append(f"- {p.name} : {p.remain} {p.remain_unit}")
+
+        message_lines.append("\n")
+        message_lines.append(f"สั่งเพิ่ม\n")
         for p in type1:
             note_text = f"❗{p.note}" if p.note else ""
             message_lines.append(f"- {p.name} : {p.order} {p.order_unit} {note_text}")
 
         message_lines.append("\n")
         message_lines.append("🥩 ของสด#2\n")
+        message_lines.append(f"คงเหลือ\n")
+        for p in type2:
+            message_lines.append(f"- {p.name} : {p.remain} {p.remain_unit}")
+
+        message_lines.append("\n")
+        message_lines.append(f"สั่งเพิ่ม\n")
         for p in type2:
             note_text = f"❗{p.note}" if p.note else ""
             message_lines.append(f"- {p.name} : {p.order} {p.order_unit} {note_text}")
@@ -63,6 +75,11 @@ def broadcast_line(stock_id: int, category: str, db: Session = Depends(get_db)):
 
     if vege_items:
         message_lines.append("🥬 ผัก\n")
+        message_lines.append(f"คงเหลือ\n")
+        for p in vege_items:
+            message_lines.append(f"- {p.name} : {p.remain} {p.remain_unit}")
+        message_lines.append("\n")
+        message_lines.append(f"สั่งเพิ่ม\n")
         for p in vege_items:
             note_text = f"❗{p.note}" if p.note else ""
             message_lines.append(f"- {p.name} : {p.order} {p.order_unit} {note_text}")
